@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: notification-hub
+  datasource:
+    url: jdbc:postgresql://localhost:5432/notifico
+    username: notifico
+    password: notifico
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true

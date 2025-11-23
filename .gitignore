@@ -1,0 +1,78 @@
+HELP.md
+target/
+notification-service/.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+### IntelliJ IDEA ###
+.idea/
+*.iml
+*.iws
+out/
+!src/main/**/out/
+
+### Maven ###
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+
+### Logs ###
+*.log
+logs/
+
+### OS files ###
+.DS_Store
+Thumbs.db
+
+### Spring Boot ###
+# Local env files
+application-local.yml
+application-dev.yml
+
+# Temp files
+hs_err_pid*
+replay_pid*
+
+### Docker ###
+*.pid
+
+### JVM ###
+*.class
+
+### SQLite ###
+*.db
+*.db-shm
+*.db-wal
+
+### Cache ###
+.cache/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+notification-service/.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
