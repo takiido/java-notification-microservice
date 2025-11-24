@@ -5,6 +5,7 @@ import com.takiido.notificationhub.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -55,10 +56,12 @@ public class NotificationService {
     @Transactional
     public Notification markAsSent(long id) {
         Notification n = findById(id);
+        LocalDateTime now = LocalDateTime.now();
+        n.setLastSent(now.toString());
         n.setSent(true);
 
         // TODO: Implement actual notification send logic
-        System.out.println("Notification marked as sent, id = " + id);
+        System.out.printf("Notification marked as sent id = %d, %s\n", id, now);
 
         return repo.save(n);
     }

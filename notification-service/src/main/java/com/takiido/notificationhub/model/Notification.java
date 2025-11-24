@@ -14,4 +14,5 @@ public class Notification {
     private String recipient;
     private String content;
     private boolean sent = false;
+    private String lastSent;
 }
