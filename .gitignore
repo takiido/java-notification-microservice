@@ -1,14 +1,7 @@
 HELP.md
-target/
 notification-service/.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-### IntelliJ IDEA ###
-.idea/
-*.iml
-*.iws
-out/
-!src/main/**/out/
 
 ### Maven ###
 target/
@@ -59,10 +52,11 @@ replay_pid*
 .sts4-cache
 
 ### IntelliJ IDEA ###
-notification-service/.idea
-*.iws
+.idea/
 *.iml
-*.ipr
+*.iws
+out/
+!src/main/**/out/
 
 ### NetBeans ###
 /nbproject/private/
