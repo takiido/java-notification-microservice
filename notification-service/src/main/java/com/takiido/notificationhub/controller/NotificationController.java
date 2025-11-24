@@ -3,10 +3,9 @@ package com.takiido.notificationhub.controller;
 
 import com.takiido.notificationhub.model.Notification;
 import com.takiido.notificationhub.service.NotificationService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/notification")
@@ -19,6 +18,26 @@ public class NotificationController {
 
     @PostMapping
     public Notification createNotification(@RequestBody Notification notification) {
-        return service.createNotification(notification);
+        return service.create(notification);
+    }
+
+    @GetMapping
+    public List<Notification> findAll() {
+        return service.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Notification findById(@PathVariable long id) {
+        return service.findById(id);
+    }
+
+    @PutMapping("/{id}")
+    public Notification updateNotification(@PathVariable long id, @RequestBody Notification notification) {
+        return service.update(id, notification);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable long id) {
+        service.remove(id);
     }
 }
