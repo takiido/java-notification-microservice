@@ -3,6 +3,7 @@ package com.takiido.notificationhub.service;
 import com.takiido.notificationhub.model.Notification;
 import com.takiido.notificationhub.repository.NotificationRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -23,29 +24,42 @@ public class NotificationService {
     }
 
     public Notification findById(long id) {
-        return repo.findById(id).orElse(null);
+        return repo.findById(id).orElseThrow(() -> new RuntimeException("No notification found with id:" + id));
     }
 
-    public Notification update(long id, Notification notification) {
-        Notification n = repo.findById(id)
-                .orElseThrow(() -> new RuntimeException("Notification not found"));
+    @Transactional
+    public Notification update(long id, Notification changes) {
+        Notification n = findById(id);
 
-        if (notification.getContent() != null) {
-            n.setContent(notification.getContent());
+        if (changes.getContent() != null) {
+            n.setContent(changes.getContent());
         }
 
-        if (notification.getRecipient() != null) {
-            n.setRecipient(notification.getRecipient());
+        if (changes.getRecipient() != null) {
+            n.setRecipient(changes.getRecipient());
         }
 
-        if (notification.getType() != null) {
-            n.setType(notification.getType());
+        if (changes.getType() != null) {
+            n.setType(changes.getType());
         }
 
         return repo.save(n);
     }
 
     public void remove(long id) {
+        repo.findById(id)
+                .orElseThrow(() -> new RuntimeException("No notification found with id:" + id));
         repo.deleteById(id);
+    }
+
+    @Transactional
+    public Notification markAsSent(long id) {
+        Notification n = findById(id);
+        n.setSent(true);
+
+        // TODO: Implement actual notification send logic
+        System.out.println("Notification marked as sent, id = " + id);
+
+        return repo.save(n);
     }
 }
