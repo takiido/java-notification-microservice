@@ -1,8 +1,13 @@
 package com.takiido.notificationhub.controller;
 
 
+import com.takiido.notificationhub.dto.notification.NotificationCreateDto;
+import com.takiido.notificationhub.dto.notification.NotificationDto;
+import com.takiido.notificationhub.dto.notification.NotificationUpdateDto;
+import com.takiido.notificationhub.mapper.NotificationMapper;
 import com.takiido.notificationhub.model.Notification;
 import com.takiido.notificationhub.service.NotificationService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,29 +17,46 @@ import java.util.List;
 @RequestMapping("/api/notification")
 public class NotificationController {
     private final NotificationService service;
+    private final NotificationMapper mapper;
 
-    public NotificationController(NotificationService service) {
+    public NotificationController(NotificationService service,  NotificationMapper mapper) {
         this.service = service;
+        this.mapper = mapper;
     }
 
     @PostMapping
-    public Notification createNotification(@RequestBody Notification notification) {
-        return service.create(notification);
+    public Notification createNotification(@Valid @RequestBody NotificationCreateDto dto) {
+        return service.create(mapper.fromDto(dto));
     }
 
     @GetMapping
-    public List<Notification> findAll() {
-        return service.findAll();
+    public ResponseEntity<List<NotificationDto>> findAll() {
+        List<NotificationDto> body = service.findAll()
+                .stream()
+                .map(mapper::toDto)
+                .toList();
+
+        return ResponseEntity.ok(body);
     }
 
     @GetMapping("/{id}")
-    public Notification findById(@PathVariable long id) {
-        return service.findById(id);
+    public NotificationDto findById(@PathVariable long id) {
+        return mapper.toDto(service.findById(id));
+    }
+
+    @GetMapping("/recipient")
+    public List<NotificationDto> findByRecipient(@RequestParam String recipient) {
+        return service.findAllByRecipient(recipient)
+                .stream()
+                .map(mapper::toDto)
+                .toList();
     }
 
     @PutMapping("/{id}")
-    public Notification updateNotification(@PathVariable long id, @RequestBody Notification notification) {
-        return service.update(id, notification);
+    public NotificationDto updateNotification(@PathVariable long id, @Valid @RequestBody NotificationUpdateDto dto) {
+        Notification existing = service.findById(id);
+        mapper.updateNotificationFromDto(dto, existing);
+        return mapper.toDto(service.update(id, existing));
     }
 
     @DeleteMapping("/{id}")
