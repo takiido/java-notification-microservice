@@ -24,6 +24,10 @@ public class NotificationService {
         return repo.findAll();
     }
 
+    public List<Notification> findAllByRecipient(String recipient) {
+        return repo.findAllByRecipient(recipient);
+    }
+
     public Notification findById(long id) {
         return repo.findById(id).orElseThrow(() -> new RuntimeException("No notification found with id:" + id));
     }
@@ -56,12 +60,11 @@ public class NotificationService {
     @Transactional
     public Notification markAsSent(long id) {
         Notification n = findById(id);
-        LocalDateTime now = LocalDateTime.now();
-        n.setLastSent(now.toString());
+        n.setSentAt(LocalDateTime.now());
         n.setSent(true);
 
         // TODO: Implement actual notification send logic
-        System.out.printf("Notification marked as sent id = %d, %s\n", id, now);
+        System.out.printf("Notification marked as sent id = %d, %s\n", id, n.getSentAt());
 
         return repo.save(n);
     }

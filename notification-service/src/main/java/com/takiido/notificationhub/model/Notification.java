@@ -3,6 +3,8 @@ package com.takiido.notificationhub.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 @Entity
 public class Notification {
@@ -13,6 +15,7 @@ public class Notification {
     private String type;
     private String recipient;
     private String content;
+
     private boolean sent = false;
-    private String lastSent;
+    private LocalDateTime sentAt;
 }
